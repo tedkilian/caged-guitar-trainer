@@ -743,16 +743,75 @@ async function initAudio(){
 
 function midiFreq(m){return 440*Math.pow(2,(m-69)/12)}
 
-function getVoicing(rootSem,minor){
-  const mbase=48+rootSem;
-  const bass=mbase>52?mbase-12:mbase;
-  const th=minor?3:4;
-  return{
-    bassFreq:midiFreq(bass),
-    chordFreqs:[midiFreq(bass+12),midiFreq(bass+12+th),midiFreq(bass+12+7),midiFreq(bass+24)]
+// ── Karplus-Strong plucked string synthesis ──────────────────
+// Produces a natural decaying plucked-string timbre.
+// feedback: 0.99x = longer sustain, lower = more damped.
+function ksPluck(freq, dur, feedback){
+  const sr = audioCtx.sampleRate;
+  const N  = Math.max(2, Math.round(sr / freq));
+  const len = Math.ceil(dur * sr) + N;
+  const out = new Float32Array(len);
+  const dl  = new Float32Array(N);
+  // Initialise delay line with band-limited noise (avoids DC offset)
+  for(let i=0;i<N;i++) dl[i] = Math.random()*2-1;
+  // Optional: window the initial burst for a softer attack
+  for(let i=0;i<N;i++) dl[i] *= Math.sin(Math.PI*i/N);
+  let rp=0;
+  for(let i=0;i<len;i++){
+    out[i] = dl[rp];
+    // Extended KS: averaging + explicit feedback coefficient
+    dl[rp] = feedback * 0.5 * (dl[rp] + dl[(rp+1)%N]);
+    rp = (rp+1)%N;
+  }
+  return out;
+}
+
+// Play a KS note as a scheduled AudioBufferSourceNode
+function playKS(freq, time, dur, vol, fb){
+  const samples = ksPluck(freq, dur, fb||0.9965);
+  const ab  = audioCtx.createBuffer(1, samples.length, audioCtx.sampleRate);
+  ab.getChannelData(0).set(samples);
+  const src = audioCtx.createBufferSource();
+  src.buffer = ab;
+  const g = audioCtx.createGain();
+  // Soft fade-out at end so there's no click
+  g.gain.setValueAtTime(vol, time);
+  g.gain.setValueAtTime(vol, time + dur*0.75);
+  g.gain.linearRampToValueAtTime(0, time + dur);
+  src.connect(g); g.connect(masterGain);
+  src.start(time); src.stop(time + dur + 0.05);
+}
+
+// ── Chord voicing (MIDI) ──────────────────────────────────────
+function getVoicing(rootSem, minor){
+  const mbase = 48 + rootSem;
+  const bass  = mbase > 52 ? mbase - 12 : mbase;
+  const th    = minor ? 3 : 4;
+  return {
+    bassMidi: bass,
+    // 5-string voicing: root, 3rd, 5th, root-octave, 3rd-octave
+    chordMidi: [bass+12, bass+12+th, bass+12+7, bass+24, bass+24+th]
   };
 }
 
+// ── Walking bass line ─────────────────────────────────────────
+// Returns 4 MIDI notes (quarter note beats) for one bar.
+// Beat 4 is a chromatic approach note one semitone below the
+// next bar's root, giving a smooth bassline walk between chords.
+function getBassWalk(rootSem, minor){
+  const mbase    = 48 + rootSem;
+  const root     = mbase > 52 ? mbase - 12 : mbase;
+  const third    = root + (minor ? 3 : 4);
+  const fifth    = root + 7;
+  // Next bar is the opposite chord
+  const nextSem  = minor ? state.key : (state.key + 9) % 12;
+  const nextBase = 48 + nextSem;
+  const nextRoot = nextBase > 52 ? nextBase - 12 : nextBase;
+  const approach = nextRoot - 1;   // semitone below = leading approach
+  return [root, fifth, third, approach];
+}
+
+// ── Drums (oscillator / noise, unchanged) ────────────────────
 function playKick(t){
   const osc=audioCtx.createOscillator(), g=audioCtx.createGain();
   osc.type='sine';
@@ -762,13 +821,11 @@ function playKick(t){
 }
 
 function playSnare(t){
-  // Noise burst
   const src=audioCtx.createBufferSource(); src.buffer=noiseBuffer;
   const hpf=audioCtx.createBiquadFilter(); hpf.type='highpass'; hpf.frequency.value=2200;
   const g=audioCtx.createGain();
   g.gain.setValueAtTime(0.55,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.14);
   src.connect(hpf); hpf.connect(g); g.connect(masterGain); src.start(t); src.stop(t+0.15);
-  // Snap tone
   const osc=audioCtx.createOscillator(), og=audioCtx.createGain();
   osc.type='triangle'; osc.frequency.value=185;
   og.gain.setValueAtTime(0.5,t); og.gain.exponentialRampToValueAtTime(0.001,t+0.06);
@@ -779,35 +836,8 @@ function playHiHat(t){
   const src=audioCtx.createBufferSource(); src.buffer=noiseBuffer;
   const hpf=audioCtx.createBiquadFilter(); hpf.type='highpass'; hpf.frequency.value=9000;
   const g=audioCtx.createGain();
-  g.gain.setValueAtTime(0.14,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.038);
+  g.gain.setValueAtTime(0.13,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.038);
   src.connect(hpf); hpf.connect(g); g.connect(masterGain); src.start(t); src.stop(t+0.05);
-}
-
-function playBass(freq,t,dur){
-  const osc=audioCtx.createOscillator(), g=audioCtx.createGain();
-  osc.type='triangle'; osc.frequency.value=freq;
-  g.gain.setValueAtTime(0.72,t); g.gain.setValueAtTime(0.5,t+0.06);
-  g.gain.exponentialRampToValueAtTime(0.001,t+dur*0.88);
-  osc.connect(g); g.connect(masterGain); osc.start(t); osc.stop(t+dur);
-}
-
-function playChordStrum(freqs,t,dur,isUp,vel){
-  const ordered=isUp?[...freqs].reverse():freqs;
-  ordered.forEach((freq,i)=>{
-    const dt=i*0.011, st=t+dt;
-    const v=vel/(freqs.length*2.2);
-    [-7,7].forEach(cents=>{
-      const osc=audioCtx.createOscillator(), g=audioCtx.createGain(), filt=audioCtx.createBiquadFilter();
-      osc.type='sawtooth'; osc.frequency.value=freq*Math.pow(2,cents/1200);
-      filt.type='lowpass'; filt.frequency.value=2700; filt.Q.value=0.8;
-      g.gain.setValueAtTime(0,st);
-      g.gain.linearRampToValueAtTime(v,st+0.016);
-      g.gain.exponentialRampToValueAtTime(v*0.28,st+0.22);
-      g.gain.exponentialRampToValueAtTime(0.0001,st+dur);
-      osc.connect(filt); filt.connect(g); g.connect(masterGain);
-      osc.start(st); osc.stop(st+dur+0.05);
-    });
-  });
 }
 
 function scheduleNote(pos,t,e8){
@@ -815,16 +845,33 @@ function scheduleNote(pos,t,e8){
   const root=minor?(state.key+9)%12:state.key;
   const v=getVoicing(root,minor);
 
+  // Drums
   if(KICK[bar])  playKick(t);
   if(SNARE[bar]) playSnare(t);
   if(HIHAT[bar]) playHiHat(t);
-  if(bar===0)    playBass(v.bassFreq,t,e8*3.2);
 
+  // Walking bass: one KS pluck on every quarter note (every 2 eighth-note ticks)
+  // beat 0=root, 1=5th, 2=3rd, 3=approach-note-to-next-chord
+  if(bar%2===0){
+    const beat      = bar/2;                          // 0-3
+    const walkMidi  = getBassWalk(root, minor)[beat];
+    const walkFreq  = midiFreq(walkMidi);
+    const walkDur   = e8 * (beat===3 ? 1.6 : 1.85);  // approach note slightly shorter
+    playKS(walkFreq, t, walkDur, 0.82, 0.9988);       // high feedback = long bass sustain
+  }
+
+  // Chord strum — Karplus-Strong per string, staggered for natural strum feel
   const strum=STRUM[bar];
   if(strum){
-    const isUp=strum===2;
-    const freqs=isUp?v.chordFreqs.slice(1):v.chordFreqs;
-    playChordStrum(freqs,t,e8*(isUp?1.3:2.6),isUp,isUp?0.38:0.62);
+    const isUp   = strum===2;
+    const midi   = isUp ? v.chordMidi.slice(2) : v.chordMidi; // up-strum: top 3 strings
+    const order  = isUp ? [...midi].reverse() : midi;
+    const dur    = e8 * (isUp ? 1.1 : 2.5);
+    const vel    = isUp ? 0.28 : 0.50;
+    order.forEach((m, i) => {
+      const st = t + i * 0.013;   // 13 ms between strings → natural strum sweep
+      playKS(midiFreq(m), st, dur, vel, 0.9962);
+    });
   }
 
   // Schedule UI update
