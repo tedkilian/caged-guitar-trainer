@@ -14,12 +14,10 @@
     }
     body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
 
-    /* ── Header ── */
     header{
       background:linear-gradient(135deg,#13132a 0%,#1a1a35 100%);
       border-bottom:2px solid var(--C);
-      padding:18px 32px;
-      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 32px;display:flex;align-items:center;justify-content:space-between;
     }
     .logo-area h1{
       font-size:26px;font-weight:800;letter-spacing:-0.5px;
@@ -27,14 +25,11 @@
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
     }
     .logo-area p{font-size:13px;color:var(--muted);margin-top:2px}
-    .header-badge{
-      font-size:12px;color:var(--muted);text-align:right;line-height:1.6;
-    }
+    .header-badge{font-size:12px;color:var(--muted);text-align:right;line-height:1.6}
 
-    /* ── Layout ── */
     .container{max-width:1200px;margin:0 auto;padding:24px 20px}
 
-    /* ── Controls ── */
+    /* Controls */
     .controls{
       background:var(--surface);border:1px solid var(--border);border-radius:12px;
       padding:18px 20px;margin-bottom:20px;
@@ -45,12 +40,10 @@
     .btn-row{display:flex;gap:5px;flex-wrap:wrap}
     button{
       padding:7px 14px;border:1px solid var(--border);background:var(--surface2);
-      color:var(--text);border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;
-      transition:all .15s;
+      color:var(--text);border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;
     }
     button:hover{border-color:#4a4a7a;background:#252550}
     button.active{color:#fff}
-
     .key-btn.active{background:#3a3a6a;border-color:#7070cc}
     .shape-btn[data-s="C"].active{background:var(--C);border-color:var(--C)}
     .shape-btn[data-s="A"].active{background:var(--A);border-color:var(--A)}
@@ -58,107 +51,114 @@
     .shape-btn[data-s="E"].active{background:var(--E);border-color:var(--E)}
     .shape-btn[data-s="D"].active{background:var(--D);border-color:var(--D)}
     .shape-btn[data-s="ALL"].active{
-      background:linear-gradient(90deg,var(--C),var(--A),var(--G),var(--E),var(--D));
-      border-color:#888;
+      background:linear-gradient(90deg,var(--C),var(--A),var(--G),var(--E),var(--D));border-color:#888;
     }
     .mode-btn.active{background:#3d2b6b;border-color:#7050bb}
 
-    /* ── Fretboard ── */
+    /* ── Backing Track ── */
+    .bt-section{
+      background:var(--surface);border:1px solid var(--border);border-radius:12px;
+      padding:22px 24px;margin-bottom:20px;position:relative;overflow:hidden;
+    }
+    .bt-section::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--G),#1abc9c,var(--E));
+    }
+    .bt-top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+    .bt-title{font-size:17px;font-weight:700}
+    .bt-body{display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+
+    .play-btn{
+      width:112px;height:48px;border-radius:24px;
+      font-size:15px;font-weight:700;letter-spacing:.4px;
+      background:var(--G);border-color:var(--G);color:#fff;
+    }
+    .play-btn:hover{background:#2ecc71;border-color:#2ecc71}
+    .play-btn.playing{background:#c0392b;border-color:#c0392b}
+    .play-btn.playing:hover{background:#e74c3c;border-color:#e74c3c}
+
+    .tempo-wrap{display:flex;flex-direction:column;gap:5px;min-width:150px}
+    .bpm-num{font-size:34px;font-weight:800;line-height:1;text-align:center}
+    .bpm-lbl{font-size:12px;color:var(--muted);font-weight:400}
+    .tempo-slider{width:100%;accent-color:var(--G);cursor:pointer;margin-top:2px}
+    .tempo-mm{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}
+
+    .chord-display{display:flex;flex-direction:column;gap:14px}
+    .chord-pills{display:flex;align-items:center;gap:12px}
+    .chord-pill{
+      padding:12px 20px;border-radius:10px;border:2px solid var(--border);
+      text-align:center;min-width:95px;cursor:default;transition:all .25s;
+    }
+    .chord-pill.major-pill{background:#1a2a1a}
+    .chord-pill.minor-pill{background:#1a1a2a}
+    .cp-name{font-size:22px;font-weight:800;line-height:1}
+    .cp-type{font-size:11px;color:var(--muted);margin-top:3px}
+    .chord-pill.active-chord.major-pill{border-color:var(--G);box-shadow:0 0 20px #27ae6055;background:#1d3a1d}
+    .chord-pill.active-chord.minor-pill{border-color:var(--E);box-shadow:0 0 20px #2980b955;background:#1a2030}
+    .chord-arrow{font-size:22px;color:var(--muted)}
+
+    .beat-area{display:flex;align-items:center;gap:7px}
+    .bar-label{font-size:11px;font-weight:700;color:var(--muted);width:18px;text-align:center}
+    .beat-dots{display:flex;gap:5px}
+    .beat-dot{
+      width:12px;height:12px;border-radius:50%;
+      background:#2a2a4a;border:1px solid #3a3a6a;transition:all .06s;
+    }
+    .beat-dot.beat1{width:16px;height:16px}
+    .beat-dot.active{background:#fff;border-color:#fff;box-shadow:0 0 10px #ffffff99;transform:scale(1.25)}
+    .beat-sep{width:1px;height:22px;background:#2a2a5a;margin:0 2px}
+
+    .bt-hint{font-size:12px;color:var(--muted);font-style:italic;max-width:220px;line-height:1.5}
+
+    /* Fretboard */
     .fb-section{
       background:var(--surface);border:1px solid var(--border);border-radius:12px;
       padding:20px;margin-bottom:20px;
     }
+    .fb-section.playing-mode{border-color:#27ae6044;box-shadow:0 0 30px #27ae6015}
     .fb-wrap{overflow-x:auto;padding-bottom:4px}
     .fb-wrap svg{display:block;min-width:860px}
-
-    /* ── Legend ── */
-    .legend{
-      display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:12px;color:var(--muted);
-    }
+    .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:12px;color:var(--muted)}
     .leg{display:flex;align-items:center;gap:6px}
     .leg-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
 
-    /* ── Bottom grid ── */
+    /* Bottom grid */
     .bottom-grid{display:grid;grid-template-columns:300px 1fr;gap:20px;margin-bottom:20px}
     @media(max-width:800px){.bottom-grid{grid-template-columns:1fr}}
-
-    /* ── Chord Box ── */
-    .chord-box-card{
-      background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;
-    }
+    .chord-box-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
     .chord-box-card h3{font-size:15px;margin-bottom:14px;color:#ccc}
     .chord-box-wrap{display:flex;justify-content:center}
-
-    /* ── Shape Info ── */
-    .shape-info{
-      background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;
-    }
+    .shape-info{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
     .shape-info h2{font-size:20px;font-weight:700;margin-bottom:8px}
-    .shape-info .tag{
-      display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;
-      font-weight:700;letter-spacing:1px;margin-bottom:12px;
-    }
+    .shape-info .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:12px}
     .shape-info p{font-size:14px;line-height:1.7;color:#bbb;margin-bottom:10px}
     .tips{list-style:none;display:flex;flex-direction:column;gap:6px}
-    .tips li{
-      font-size:13px;color:#aaa;padding:7px 12px;
-      background:var(--surface2);border-radius:6px;
-      border-left:3px solid var(--muted);
-      line-height:1.5;
-    }
+    .tips li{font-size:13px;color:#aaa;padding:7px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--muted);line-height:1.5}
 
-    /* ── Lessons ── */
-    .lessons{
-      background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;
-    }
+    /* Lessons */
+    .lessons{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px}
     .lessons h2{font-size:20px;font-weight:700;margin-bottom:16px}
     .lesson-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
-    .ltab{
-      padding:7px 14px;border:1px solid var(--border);background:var(--surface2);
-      color:var(--muted);border-radius:7px;cursor:pointer;font-size:13px;
-      transition:all .15s;
-    }
+    .ltab{padding:7px 14px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);border-radius:7px;cursor:pointer;font-size:13px;transition:all .15s}
     .ltab:hover{color:var(--text);border-color:#4a4a7a}
     .ltab.active{background:#2a1540;border-color:#7050bb;color:#d090ff}
     .lpanel{display:none}
     .lpanel.active{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     @media(max-width:700px){.lpanel.active{grid-template-columns:1fr}}
-
-    .video-area{
-      background:#000;border-radius:8px;overflow:hidden;
-      aspect-ratio:16/9;position:relative;
-    }
+    .video-area{background:#000;border-radius:8px;overflow:hidden;aspect-ratio:16/9;position:relative}
     .video-area iframe{width:100%;height:100%;border:0}
-    .yt-placeholder{
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      height:100%;min-height:200px;background:#111;gap:12px;
-      color:#555;font-size:13px;text-align:center;padding:20px;
-    }
+    .yt-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:200px;background:#111;gap:12px;color:#555;font-size:13px;text-align:center;padding:20px}
     .yt-placeholder .yt-icon{font-size:44px}
-    .yt-link{
-      display:inline-flex;align-items:center;gap:7px;
-      padding:8px 18px;background:#c00;color:#fff;
-      border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;
-      transition:background .15s;margin-top:4px;
-    }
+    .yt-link{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;background:#c00;color:#fff;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;transition:background .15s;margin-top:4px}
     .yt-link:hover{background:#e00}
     .lesson-text h3{font-size:17px;font-weight:700;margin-bottom:10px;color:#e0d0ff}
     .lesson-text p{font-size:13px;line-height:1.8;color:#bbb;margin-bottom:12px}
     .lesson-text h4{font-size:13px;font-weight:600;margin-bottom:6px;color:#ccc;text-transform:uppercase;letter-spacing:.8px}
     .lesson-text ul{list-style:none;display:flex;flex-direction:column;gap:4px}
-    .lesson-text ul li{
-      font-size:13px;color:#aaa;padding:5px 10px;
-      background:var(--surface2);border-radius:5px;
-    }
+    .lesson-text ul li{font-size:13px;color:#aaa;padding:5px 10px;background:var(--surface2);border-radius:5px}
     .lesson-text ul li::before{content:"→ ";color:var(--muted)}
-
-    /* ── Progress nav ── */
     .shape-nav{display:flex;gap:8px;margin-bottom:20px;justify-content:center}
-    .snav{
-      width:42px;height:42px;border-radius:50%;display:flex;align-items:center;
-      justify-content:center;font-weight:800;font-size:15px;cursor:pointer;
-      border:2px solid transparent;transition:all .2s;
-    }
+    .snav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;cursor:pointer;border:2px solid transparent;transition:all .2s}
     .snav:hover{transform:scale(1.1)}
     .snav[data-s="C"]{background:var(--C)22;border-color:var(--C);color:var(--C)}
     .snav[data-s="A"]{background:var(--A)22;border-color:var(--A);color:var(--A)}
@@ -203,15 +203,70 @@
     </div>
   </div>
 
+  <!-- Backing Track -->
+  <div class="bt-section">
+    <div class="bt-top">
+      <span style="font-size:20px">♩</span>
+      <span class="bt-title">Backing Track</span>
+      <span style="font-size:12px;color:var(--muted);margin-left:6px">I → vi progression</span>
+    </div>
+    <div class="bt-body">
+      <!-- Play + Tempo -->
+      <div style="display:flex;flex-direction:column;gap:14px;align-items:center">
+        <button class="play-btn" id="playBtn" onclick="togglePlay()">▶ Play</button>
+        <div class="tempo-wrap">
+          <div class="bpm-num"><span id="bpmDisplay">75</span><span class="bpm-lbl"> BPM</span></div>
+          <input type="range" class="tempo-slider" id="tempoSlider" min="40" max="160" value="75" oninput="onTempoChange(this.value)">
+          <div class="tempo-mm"><span>40</span><span>160</span></div>
+        </div>
+      </div>
+
+      <!-- Chord pills + beat grid -->
+      <div class="chord-display">
+        <div class="chord-pills">
+          <div class="chord-pill major-pill" id="chordI">
+            <div class="cp-name" id="cpMajorName">C</div>
+            <div class="cp-type">major (I)</div>
+          </div>
+          <div class="chord-arrow">⟷</div>
+          <div class="chord-pill minor-pill" id="chordVI">
+            <div class="cp-name" id="cpMinorName">Am</div>
+            <div class="cp-type">minor (vi)</div>
+          </div>
+        </div>
+        <!-- Beat visualizer -->
+        <div class="beat-area">
+          <div class="bar-label">I</div>
+          <div class="beat-dots" id="beatsBar1">
+            <div class="beat-dot beat1" data-b="0"></div>
+            <div class="beat-dot" data-b="1"></div>
+            <div class="beat-dot" data-b="2"></div>
+            <div class="beat-dot" data-b="3"></div>
+          </div>
+          <div class="beat-sep"></div>
+          <div class="beat-dots" id="beatsBar2">
+            <div class="beat-dot beat1" data-b="4"></div>
+            <div class="beat-dot" data-b="5"></div>
+            <div class="beat-dot" data-b="6"></div>
+            <div class="beat-dot" data-b="7"></div>
+          </div>
+          <div class="bar-label">vi</div>
+        </div>
+      </div>
+
+      <div class="bt-hint" id="btHint">Press Play — the fretboard will show all 5 CAGED patterns for the selected key</div>
+    </div>
+  </div>
+
   <!-- Fretboard -->
-  <div class="fb-section">
+  <div class="fb-section" id="fbSection">
     <div class="fb-wrap">
-      <svg id="fretboard" class="fretboard"></svg>
+      <svg id="fretboard"></svg>
     </div>
     <div class="legend" id="legend"></div>
   </div>
 
-  <!-- Bottom grid: chord box + info -->
+  <!-- Bottom grid -->
   <div class="bottom-grid">
     <div class="chord-box-card">
       <h3 id="chordBoxTitle">Chord Voicing</h3>
@@ -230,7 +285,7 @@
     <div id="lessonPanels"></div>
   </div>
 
-</div><!-- /container -->
+</div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
@@ -238,53 +293,26 @@
 // ═══════════════════════════════════════════════════════════════
 
 const KEYS = [
-  {name:'C', val:0}, {name:'C#/Db', val:1}, {name:'D', val:2},
-  {name:'Eb', val:3}, {name:'E', val:4}, {name:'F', val:5},
-  {name:'F#/Gb', val:6}, {name:'G', val:7}, {name:'Ab', val:8},
-  {name:'A', val:9}, {name:'Bb', val:10}, {name:'B', val:11},
+  {name:'C',val:0},{name:'C#/Db',val:1},{name:'D',val:2},{name:'Eb',val:3},
+  {name:'E',val:4},{name:'F',val:5},{name:'F#/Gb',val:6},{name:'G',val:7},
+  {name:'Ab',val:8},{name:'A',val:9},{name:'Bb',val:10},{name:'B',val:11},
 ];
-
 const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const NOTE_FLAT  = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
 
-// String open notes (C=0), index 0=low E string, 5=high e string
-const STR_OPEN = [4, 9, 2, 7, 11, 4];
+// String open notes (C=0), index 0=low E, 5=high e
+const STR_OPEN = [4,9,2,7,11,4];
 const STR_NAME = ['E','A','D','G','B','e'];
 
-const MAJOR_SCALE = [0,2,4,5,7,9,11];
-const CHORD_TONES = [0,4,7]; // root, M3, P5
+const MAJOR_SCALE  = [0,2,4,5,7,9,11];
+const CHORD_TONES  = [0,4,7];
 
-// CAGED shapes: voicing = fret offsets from anchor fret, -1=muted
 const SHAPES = {
-  C: {
-    label:'C', name:'C Shape', anchor:1,
-    voicing:[-1, 0, -1, -3, -2, -3],
-    color:'#e74c3c', window:[-3,2],
-    rootStrings:[1,4] // string indices (from low E) where root appears in voicing
-  },
-  A: {
-    label:'A', name:'A Shape', anchor:1,
-    voicing:[-1, 0, 2, 2, 2, 0],
-    color:'#e67e22', window:[0,5],
-    rootStrings:[1,3]
-  },
-  G: {
-    label:'G', name:'G Shape', anchor:0,
-    voicing:[0, -1, -3, -3, -3, 0],
-    color:'#27ae60', window:[-3,2],
-    rootStrings:[0,3,5]
-  },
-  E: {
-    label:'E', name:'E Shape', anchor:0,
-    voicing:[0, 2, 2, 1, 0, 0],
-    color:'#2980b9', window:[0,5],
-    rootStrings:[0,2,5]
-  },
-  D: {
-    label:'D', name:'D Shape', anchor:2,
-    voicing:[-1, -1, 0, 2, 3, 2],
-    color:'#8e44ad', window:[0,5],
-    rootStrings:[2,4]
-  }
+  C:{label:'C',name:'C Shape',anchor:1,voicing:[-1,0,-1,-3,-2,-3],color:'#e74c3c',window:[-3,2]},
+  A:{label:'A',name:'A Shape',anchor:1,voicing:[-1,0,2,2,2,0],   color:'#e67e22',window:[0,5]},
+  G:{label:'G',name:'G Shape',anchor:0,voicing:[0,-1,-3,-3,-3,0], color:'#27ae60',window:[-3,2]},
+  E:{label:'E',name:'E Shape',anchor:0,voicing:[0,2,2,1,0,0],     color:'#2980b9',window:[0,5]},
+  D:{label:'D',name:'D Shape',anchor:2,voicing:[-1,-1,0,2,3,2],   color:'#8e44ad',window:[0,5]},
 };
 const SHAPE_ORDER = ['C','A','G','E','D'];
 
@@ -292,581 +320,321 @@ const SHAPE_ORDER = ['C','A','G','E','D'];
 // MUSIC THEORY HELPERS
 // ═══════════════════════════════════════════════════════════════
 
-function getAnchorFret(key, sh) {
-  const shape = SHAPES[sh];
-  const openNote = STR_OPEN[shape.anchor];
-  let fret = ((key - openNote) % 12 + 12) % 12;
-  const minOff = Math.min(...shape.voicing.filter(v => v !== -1));
-  if (fret + minOff < 0) fret += 12;
-  return fret;
+function getAnchorFret(key,sh){
+  const s=SHAPES[sh]; let f=((key-STR_OPEN[s.anchor])%12+12)%12;
+  const minOff=Math.min(...s.voicing.filter(v=>v!==-1));
+  if(f+minOff<0)f+=12; return f;
 }
-
-function getWindow(key, sh) {
-  const anchor = getAnchorFret(key, sh);
-  const [s, e] = SHAPES[sh].window;
-  return { start: Math.max(0, anchor + s), end: anchor + e };
+function getWindow(key,sh){
+  const a=getAnchorFret(key,sh),[s,e]=SHAPES[sh].window;
+  return{start:Math.max(0,a+s),end:a+e};
 }
-
-function noteAt(si, fret) { return (STR_OPEN[si] + fret) % 12; }
-
-function interval(note, key) { return (note - key + 12) % 12; }
-
-function isScale(note, key) { return MAJOR_SCALE.includes(interval(note, key)); }
-function isChord(note, key) { return CHORD_TONES.includes(interval(note, key)); }
-function isRoot(note, key) { return (note % 12) === (key % 12); }
-
-function noteName(n) { return NOTE_NAMES[n % 12]; }
-function intervalName(iv) {
-  return ['R','b2','2','b3','3','4','#4','5','b6','6','b7','7'][iv];
+function noteAt(si,f){return(STR_OPEN[si]+f)%12}
+function interval(n,k){return(n-k+12)%12}
+function isScale(n,k){return MAJOR_SCALE.includes(interval(n,k))}
+function isChord(n,k){return CHORD_TONES.includes(interval(n,k))}
+function isRoot(n,k){return(n%12)===(k%12)}
+function noteName(n){return NOTE_NAMES[n%12]}
+function intervalName(iv){return['R','b2','2','b3','3','4','#4','5','b6','6','b7','7'][iv]}
+function noteShortName(semitone){
+  const flat=[1,3,6,8,10];
+  return flat.includes(semitone)?NOTE_FLAT[semitone]:NOTE_NAMES[semitone];
 }
 
 // ═══════════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════════
 
-const state = { key: 0, shape: 'C', mode: 'chord', lesson: 'intro' };
+const state = {key:0, shape:'C', mode:'chord', lesson:'intro', isPlaying:false};
 
 // ═══════════════════════════════════════════════════════════════
-// FRETBOARD RENDERER
+// FRETBOARD
 // ═══════════════════════════════════════════════════════════════
 
-function renderFretboard() {
-  const svg = document.getElementById('fretboard');
-  svg.innerHTML = '';
+function renderFretboard(){
+  const svg=document.getElementById('fretboard');
+  svg.innerHTML='';
+  // When playing, always show ALL shapes
+  const esh = state.isPlaying ? 'ALL' : state.shape;
 
-  const FRETS = 15;         // frets to display (0=open, 1-15)
-  const NUT_X = 54;
-  const FW = 58;            // fret width
-  const SH = 32;            // string height
-  const TOP = 24;
-  const BOT = 32;
-  const W = NUT_X + FRETS * FW + 20;
-  const H = TOP + 5 * SH + BOT;
+  const FRETS=15,NUT_X=54,FW=58,SH=32,TOP=24,BOT=32;
+  const W=NUT_X+FRETS*FW+20, H=TOP+5*SH+BOT;
+  svg.setAttribute('width',W); svg.setAttribute('height',H);
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
 
-  svg.setAttribute('width', W);
-  svg.setAttribute('height', H);
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const sx=f=>f===0?NUT_X-22:NUT_X+(f-0.5)*FW;
+  const DISP=[5,4,3,2,1,0];
+  const sy=di=>TOP+di*SH;
 
-  const sx = f => f === 0 ? NUT_X - 22 : NUT_X + (f - 0.5) * FW;
-  // Display order: high e (idx 5) at top, low E (idx 0) at bottom
-  const DISP = [5,4,3,2,1,0];
-  const sy = di => TOP + di * SH;
-
-  // ── Shape window highlight ──
-  if (state.shape !== 'ALL') {
-    const win = getWindow(state.key, state.shape);
-    const x1 = win.start === 0 ? NUT_X - 30 : NUT_X + win.start * FW;
-    const x2 = NUT_X + win.end * FW;
-    const rect = el('rect', {
-      x: x1, y: TOP - 4, width: x2 - x1, height: 5 * SH + 8,
-      fill: SHAPES[state.shape].color + '18',
-      stroke: SHAPES[state.shape].color + '55',
-      'stroke-width': 1.5, rx: 6
-    });
-    svg.appendChild(rect);
+  // Shape window highlight(s)
+  if(esh!=='ALL'){
+    const w=getWindow(state.key,esh);
+    const x1=w.start===0?NUT_X-30:NUT_X+w.start*FW;
+    svg.appendChild(el('rect',{x:x1,y:TOP-4,width:NUT_X+w.end*FW-x1,height:5*SH+8,
+      fill:SHAPES[esh].color+'18',stroke:SHAPES[esh].color+'55','stroke-width':1.5,rx:6}));
   } else {
-    // Highlight all 5 shape windows
-    SHAPE_ORDER.forEach(sh => {
-      const win = getWindow(state.key, sh);
-      const x1 = win.start === 0 ? NUT_X - 30 : NUT_X + win.start * FW;
-      const x2 = NUT_X + win.end * FW;
-      const rect = el('rect', {
-        x: x1, y: TOP - 4, width: x2 - x1, height: 5 * SH + 8,
-        fill: SHAPES[sh].color + '12',
-        stroke: SHAPES[sh].color + '40',
-        'stroke-width': 1, rx: 6
-      });
-      svg.appendChild(rect);
+    SHAPE_ORDER.forEach(sh=>{
+      const w=getWindow(state.key,sh);
+      const x1=w.start===0?NUT_X-30:NUT_X+w.start*FW;
+      svg.appendChild(el('rect',{x:x1,y:TOP-4,width:NUT_X+w.end*FW-x1,height:5*SH+8,
+        fill:SHAPES[sh].color+'12',stroke:SHAPES[sh].color+'40','stroke-width':1,rx:6}));
     });
   }
 
-  // ── Nut ──
-  svg.appendChild(el('rect', { x: NUT_X - 5, y: TOP, width: 5, height: 5*SH, fill: '#aaa', rx:1 }));
+  // Nut
+  svg.appendChild(el('rect',{x:NUT_X-5,y:TOP,width:5,height:5*SH,fill:'#aaa',rx:1}));
 
-  // ── Fret lines ──
-  for (let f = 1; f <= FRETS; f++) {
-    const x = NUT_X + f * FW;
-    svg.appendChild(el('line', {
-      x1:x, y1:TOP, x2:x, y2:TOP+5*SH,
-      stroke: f === 12 ? '#666' : '#333', 'stroke-width': f===12 ? 2 : 1
-    }));
+  // Fret lines
+  for(let f=1;f<=FRETS;f++){
+    svg.appendChild(el('line',{x1:NUT_X+f*FW,y1:TOP,x2:NUT_X+f*FW,y2:TOP+5*SH,
+      stroke:f===12?'#666':'#333','stroke-width':f===12?2:1}));
   }
 
-  // ── Fret markers ──
-  [3,5,7,9,12].forEach(f => {
-    if (f > FRETS) return;
-    const x = NUT_X + (f - 0.5) * FW;
-    const y = H - 14;
-    if (f === 12) {
-      svg.appendChild(elDot(x - 8, y, 4, '#555'));
-      svg.appendChild(elDot(x + 8, y, 4, '#555'));
-    } else {
-      svg.appendChild(elDot(x, y, 4, '#555'));
-    }
-    const t = el('text', { x, y: H - 2, 'text-anchor':'middle', 'font-size':'11', fill:'#555' });
-    t.textContent = f;
-    svg.appendChild(t);
+  // Fret markers
+  [3,5,7,9,12].forEach(f=>{
+    if(f>FRETS)return;
+    const x=NUT_X+(f-0.5)*FW, y=H-14;
+    if(f===12){svg.appendChild(elDot(x-8,y,4,'#555'));svg.appendChild(elDot(x+8,y,4,'#555'));}
+    else svg.appendChild(elDot(x,y,4,'#555'));
+    const t=el('text',{x,y:H-2,'text-anchor':'middle','font-size':'11',fill:'#555'});
+    t.textContent=f; svg.appendChild(t);
   });
 
-  // ── Strings ──
-  DISP.forEach((si, di) => {
-    const y = sy(di);
-    svg.appendChild(el('line', {
-      x1: NUT_X - 28, y1:y, x2: W - 8, y2:y,
-      stroke: '#555', 'stroke-width': String(0.8 + (5-di) * 0.4)
-    }));
-    const t = el('text', { x:10, y: y+4, 'text-anchor':'middle', 'font-size':'11', fill:'#666' });
-    t.textContent = STR_NAME[si];
-    svg.appendChild(t);
+  // Strings
+  DISP.forEach((si,di)=>{
+    const y=sy(di);
+    svg.appendChild(el('line',{x1:NUT_X-28,y1:y,x2:W-8,y2:y,stroke:'#555','stroke-width':String(0.8+(5-di)*0.4)}));
+    const t=el('text',{x:10,y:y+4,'text-anchor':'middle','font-size':'11',fill:'#666'});
+    t.textContent=STR_NAME[si]; svg.appendChild(t);
   });
 
-  // ── Notes ──
-  const dots = collectDots();
-  dots.forEach(d => {
-    const x = sx(d.fret);
-    const y = sy(DISP.indexOf(d.si));
-    // circle
-    svg.appendChild(elDot(x, y, 13, d.color));
-    // border for root
-    if (d.isRoot) svg.appendChild(el('circle', {
-      cx:x, cy:y, r:14, fill:'none',
-      stroke: '#fff', 'stroke-width': 1.5
-    }));
-    // label
-    const t = el('text', {
-      x, y: y+4, 'text-anchor':'middle',
-      'font-size': d.label.length > 2 ? '9' : '10',
-      fill: '#fff', 'font-weight':'700'
-    });
-    t.textContent = d.label;
-    svg.appendChild(t);
+  // Notes
+  collectDots(esh).forEach(d=>{
+    const x=sx(d.fret), y=sy(DISP.indexOf(d.si));
+    svg.appendChild(elDot(x,y,13,d.color));
+    if(d.isRoot) svg.appendChild(el('circle',{cx:x,cy:y,r:14,fill:'none',stroke:'#fff','stroke-width':1.5}));
+    const t=el('text',{x,y:y+4,'text-anchor':'middle','font-size':d.label.length>2?'9':'10',fill:'#fff','font-weight':'700'});
+    t.textContent=d.label; svg.appendChild(t);
   });
 
-  // ── Open string X/O markers ──
-  if (state.shape !== 'ALL') {
-    const voicing = computeVoicing(state.key, state.shape);
-    DISP.forEach((si, di) => {
-      const fret = voicing[si];
-      if (fret === -1) {
-        // X = muted
-        const x = NUT_X - 22, y = sy(di);
-        const t = el('text', { x, y: y+5, 'text-anchor':'middle', 'font-size':'14', fill:'#555', 'font-weight':'700' });
-        t.textContent = '×';
-        svg.appendChild(t);
-      }
+  // Muted string markers (only when not playing)
+  if(esh!=='ALL'){
+    computeVoicing(state.key,esh).forEach((fret,si)=>{
+      if(fret!==-1)return;
+      const di=DISP.indexOf(si); const x=NUT_X-22,y=sy(di);
+      const t=el('text',{x,y:y+5,'text-anchor':'middle','font-size':'14',fill:'#555','font-weight':'700'});
+      t.textContent='×'; svg.appendChild(t);
     });
   }
 
-  updateLegend();
+  updateLegend(esh);
+  document.getElementById('fbSection').classList.toggle('playing-mode', state.isPlaying);
 }
 
-function collectDots() {
-  const dots = [];
-  const { key, shape, mode } = state;
-  const DISP = [5,4,3,2,1,0];
+function collectDots(esh){
+  const dots=[], {key,shape,mode}=state;
 
-  if (shape === 'ALL') {
-    // Show all major scale notes; tint by which shape "owns" them
-    for (let si = 0; si < 6; si++) {
-      for (let f = 0; f <= 15; f++) {
-        const note = noteAt(si, f);
-        if (!isScale(note, key)) continue;
-        const iv = interval(note, key);
-        const color = isRoot(note, key) ? 'var(--root)'
-          : iv === 4 ? 'var(--third)'
-          : iv === 7 ? 'var(--fifth)'
-          : '#3a3a6a';
-        dots.push({ si, fret: f, note, color, isRoot: isRoot(note, key), label: intervalName(iv) });
+  if(esh==='ALL'){
+    for(let si=0;si<6;si++){
+      for(let f=0;f<=15;f++){
+        const note=noteAt(si,f);
+        if(!isScale(note,key))continue;
+        const iv=interval(note,key);
+        const color=isRoot(note,key)?'var(--root)':iv===4?'var(--third)':iv===7?'var(--fifth)':'#3a3a6a';
+        dots.push({si,fret:f,note,color,isRoot:isRoot(note,key),label:intervalName(iv)});
       }
     }
-    // Overlay chord dots for each shape
-    SHAPE_ORDER.forEach(sh => {
-      const vc = computeVoicing(key, sh);
-      for (let si = 0; si < 6; si++) {
-        if (vc[si] < 0) continue;
-        const note = noteAt(si, vc[si]);
-        const existing = dots.find(d => d.si === si && d.fret === vc[si]);
-        if (existing) existing.color = SHAPES[sh].color;
-      }
+    // Colour chord voicing dots by shape
+    SHAPE_ORDER.forEach(sh=>{
+      computeVoicing(key,sh).forEach((fret,si)=>{
+        if(fret<0)return;
+        const ex=dots.find(d=>d.si===si&&d.fret===fret);
+        if(ex)ex.color=SHAPES[sh].color;
+      });
     });
     return dots;
   }
 
-  const win = getWindow(key, shape);
-
-  for (let si = 0; si < 6; si++) {
-    if (mode === 'chord') {
-      // Only chord voicing dots
-      const vc = computeVoicing(key, shape);
-      if (vc[si] < 0) continue;
-      const fret = vc[si];
-      const note = noteAt(si, fret);
-      const iv = interval(note, key);
-      const color = isRoot(note, key) ? SHAPES[shape].color
-        : iv === 4 ? 'var(--third)' : 'var(--fifth)';
-      dots.push({ si, fret, note, color, isRoot: isRoot(note, key), label: noteName(note) });
+  const win=getWindow(key,esh);
+  for(let si=0;si<6;si++){
+    if(mode==='chord'){
+      const vc=computeVoicing(key,esh);
+      if(vc[si]<0)continue;
+      const fret=vc[si], note=noteAt(si,fret), iv=interval(note,key);
+      const color=isRoot(note,key)?SHAPES[esh].color:iv===4?'var(--third)':'var(--fifth)';
+      dots.push({si,fret,note,color,isRoot:isRoot(note,key),label:noteName(note)});
     } else {
-      // Scale or arpeggio: show notes in window
-      for (let f = win.start; f <= Math.min(win.end + 1, 15); f++) {
-        const note = noteAt(si, f);
-        if (!isScale(note, key)) continue;
-        if (mode === 'arpeggio' && !isChord(note, key)) continue;
-        const iv = interval(note, key);
-        const color = isRoot(note, key) ? SHAPES[shape].color
-          : iv === 4 ? 'var(--third)'
-          : iv === 7 ? 'var(--fifth)'
-          : 'var(--scale)';
-        dots.push({ si, fret: f, note, color, isRoot: isRoot(note, key), label: intervalName(iv) });
+      for(let f=win.start;f<=Math.min(win.end+1,15);f++){
+        const note=noteAt(si,f);
+        if(!isScale(note,key))continue;
+        if(mode==='arpeggio'&&!isChord(note,key))continue;
+        const iv=interval(note,key);
+        const color=isRoot(note,key)?SHAPES[esh].color:iv===4?'var(--third)':iv===7?'var(--fifth)':'var(--scale)';
+        dots.push({si,fret:f,note,color,isRoot:isRoot(note,key),label:intervalName(iv)});
       }
     }
   }
   return dots;
 }
 
-function computeVoicing(key, sh) {
-  const shape = SHAPES[sh];
-  const anchor = getAnchorFret(key, sh);
-  return shape.voicing.map(v => v === -1 ? -1 : anchor + v);
+function computeVoicing(key,sh){
+  const s=SHAPES[sh], a=getAnchorFret(key,sh);
+  return s.voicing.map(v=>v===-1?-1:a+v);
 }
 
 // ═══════════════════════════════════════════════════════════════
 // CHORD BOX
 // ═══════════════════════════════════════════════════════════════
 
-function renderChordBox() {
-  const svg = document.getElementById('chordBox');
-  svg.innerHTML = '';
-  const { key, shape } = state;
-
-  if (shape === 'ALL') {
-    const t = el('text', { x:80, y:100, 'text-anchor':'middle', fill:'#666', 'font-size':'13' });
-    t.textContent = 'Select a shape';
-    svg.appendChild(t);
-    return;
+function renderChordBox(){
+  const svg=document.getElementById('chordBox');
+  svg.innerHTML='';
+  const{key,shape}=state;
+  if(shape==='ALL'){
+    const t=el('text',{x:80,y:100,'text-anchor':'middle',fill:'#666','font-size':'13'});
+    t.textContent='Select a shape'; svg.appendChild(t); return;
   }
-
-  const vc = computeVoicing(key, shape);
-  const anchor = getAnchorFret(key, shape);
-  const minFret = Math.max(1, Math.min(...vc.filter(v => v > 0)));
-  const maxFret = Math.max(...vc.filter(v => v >= 0));
-  const startFret = minFret;
-  const numFrets = Math.max(4, maxFret - startFret + 1);
-
-  const CW = 160, CH = 200;
-  const LEFT = 28, TOP = 28;
-  const CX = (CW - LEFT - 12) / 5; // col spacing
-  const RH = (CH - TOP - 30) / numFrets;
-
-  svg.setAttribute('width', CW);
-  svg.setAttribute('height', CH);
-
-  // nut or position number
-  if (startFret === 1) {
-    svg.appendChild(el('rect', { x:LEFT, y:TOP, width: CX*5, height:4, fill:'#aaa' }));
+  const vc=computeVoicing(key,shape);
+  const playedFrets=vc.filter(v=>v>0);
+  if(!playedFrets.length)return;
+  const minFret=Math.max(1,Math.min(...playedFrets));
+  const maxFret=Math.max(...playedFrets);
+  const numFrets=Math.max(4,maxFret-minFret+1);
+  const CW=160,CH=200,LEFT=28,TOP=28,CX=(CW-LEFT-12)/5,RH=(CH-TOP-30)/numFrets;
+  svg.setAttribute('width',CW); svg.setAttribute('height',CH);
+  if(minFret===1){
+    svg.appendChild(el('rect',{x:LEFT,y:TOP,width:CX*5,height:4,fill:'#aaa'}));
   } else {
-    const t = el('text', { x:LEFT-4, y:TOP+RH*0.6, 'text-anchor':'end', 'font-size':'12', fill:'#888' });
-    t.textContent = startFret + 'fr';
-    svg.appendChild(t);
-    svg.appendChild(el('line', { x1:LEFT, y1:TOP, x2:LEFT+CX*5, y2:TOP, stroke:'#555', 'stroke-width':1 }));
+    const t=el('text',{x:LEFT-4,y:TOP+RH*0.6,'text-anchor':'end','font-size':'12',fill:'#888'});
+    t.textContent=minFret+'fr'; svg.appendChild(t);
+    svg.appendChild(el('line',{x1:LEFT,y1:TOP,x2:LEFT+CX*5,y2:TOP,stroke:'#555','stroke-width':1}));
   }
-
-  // fret lines
-  for (let r = 0; r <= numFrets; r++) {
-    const y = TOP + r * RH;
-    svg.appendChild(el('line', { x1:LEFT, y1:y, x2:LEFT+CX*5, y2:y, stroke:'#444', 'stroke-width':1 }));
-  }
-
-  // string lines + X/O
-  const DISP = [5,4,3,2,1,0];
-  DISP.forEach((si, ci) => {
-    const x = LEFT + ci * CX;
-    svg.appendChild(el('line', { x1:x, y1:TOP, x2:x, y2:TOP+numFrets*RH, stroke:'#555', 'stroke-width': String(0.8+(5-ci)*0.2) }));
-    const fret = vc[si];
-    if (fret === -1) {
-      const t = el('text', { x, y:TOP-8, 'text-anchor':'middle', 'font-size':'13', fill:'#666' });
-      t.textContent = '×';
-      svg.appendChild(t);
-    } else if (fret === 0) {
-      svg.appendChild(el('circle', { cx:x, cy:TOP-9, r:5, fill:'none', stroke:'#888', 'stroke-width':1.5 }));
+  for(let r=0;r<=numFrets;r++)
+    svg.appendChild(el('line',{x1:LEFT,y1:TOP+r*RH,x2:LEFT+CX*5,y2:TOP+r*RH,stroke:'#444','stroke-width':1}));
+  const DISP=[5,4,3,2,1,0];
+  DISP.forEach((si,ci)=>{
+    const x=LEFT+ci*CX;
+    svg.appendChild(el('line',{x1:x,y1:TOP,x2:x,y2:TOP+numFrets*RH,stroke:'#555','stroke-width':String(0.8+(5-ci)*0.2)}));
+    const fret=vc[si];
+    if(fret===-1){
+      const t=el('text',{x,y:TOP-8,'text-anchor':'middle','font-size':'13',fill:'#666'}); t.textContent='×'; svg.appendChild(t);
+    } else if(fret===0){
+      svg.appendChild(el('circle',{cx:x,cy:TOP-9,r:5,fill:'none',stroke:'#888','stroke-width':1.5}));
     }
   });
-
-  // dots
-  DISP.forEach((si, ci) => {
-    const fret = vc[si];
-    if (fret <= 0) return;
-    const row = fret - startFret;
-    const x = LEFT + ci * CX;
-    const y = TOP + row * RH + RH/2;
-    const note = noteAt(si, fret);
-    const root = isRoot(note, key);
-    svg.appendChild(elDot(x, y, 10, root ? SHAPES[shape].color : '#555'));
-    const t = el('text', { x, y:y+4, 'text-anchor':'middle', 'font-size':'9', fill:'#fff', 'font-weight':'700' });
-    t.textContent = noteName(note);
-    svg.appendChild(t);
+  DISP.forEach((si,ci)=>{
+    const fret=vc[si]; if(fret<=0)return;
+    const x=LEFT+ci*CX, y=TOP+(fret-minFret)*RH+RH/2;
+    const note=noteAt(si,fret), root=isRoot(note,key);
+    svg.appendChild(elDot(x,y,10,root?SHAPES[shape].color:'#555'));
+    const t=el('text',{x,y:y+4,'text-anchor':'middle','font-size':'9',fill:'#fff','font-weight':'700'});
+    t.textContent=noteName(note); svg.appendChild(t);
   });
-
-  // title
-  const kname = KEYS.find(k=>k.val===key).name;
-  const title = document.getElementById('chordBoxTitle');
-  title.textContent = `${kname} — ${SHAPES[shape].name}`;
+  document.getElementById('chordBoxTitle').textContent=`${KEYS.find(k=>k.val===key).name} — ${SHAPES[shape].name}`;
 }
 
 // ═══════════════════════════════════════════════════════════════
 // SHAPE INFO
 // ═══════════════════════════════════════════════════════════════
 
-const SHAPE_INFO = {
-  C: {
-    desc: `The C Shape is built around the open C major chord. The root sits on the A string (5th string). In Eddie Haddad's method, this is typically the first CAGED shape you learn because it's already familiar from the open C chord.`,
-    tips: [
-      'Root note is on the 5th string (A)',
-      'Also find the root on the 2nd string (B)',
-      'Barre this shape by moving it up the neck',
-      'Connects into the A Shape going up the neck'
-    ]
-  },
-  A: {
-    desc: `The A Shape is based on the barre chord version of the A major chord. Eddie emphasizes that once you see the A shape, you can find it everywhere on the neck. The root sits on the A string.`,
-    tips: [
-      'Root note is on the 5th string (A)',
-      'Classic barre chord shape',
-      'Can also play as a partial barre (strings 2-4)',
-      'Connects into G Shape going up the neck'
-    ]
-  },
-  G: {
-    desc: `The G Shape spans the full 6 strings with roots on both the low E and high e strings. Eddie notes this is the hardest shape to barre cleanly — focus on understanding it as a scale/arpeggio map first.`,
-    tips: [
-      'Root on low E string AND high e string',
-      'Widest shape — spans the most frets',
-      'Most guitarists play partial versions',
-      'Connects into E Shape going up the neck'
-    ]
-  },
-  E: {
-    desc: `The E Shape is the most common barre chord shape guitarists learn. Based on the open E chord, it's the foundation of countless rock riffs. Root is on the low E string. Eddie says this is often the "aha" moment for students.`,
-    tips: [
-      'Root on the 6th string (low E)',
-      'The classic "first barre chord" shape',
-      'Root also appears on the D and high e strings',
-      'Connects into D Shape going up the neck'
-    ]
-  },
-  D: {
-    desc: `The D Shape completes the CAGED system. Root sits on the D string (4th string). Eddie explains that mastering this shape brings the full circle together, showing how the shapes repeat at the 12th fret.`,
-    tips: [
-      'Root on the 4th string (D)',
-      'Only uses the top 4 strings (D-G-B-e)',
-      'Root also appears on the B string',
-      'Connects back into C Shape — completing the cycle!'
-    ]
-  },
-  ALL: {
-    desc: `This is the full picture — all 5 CAGED shapes mapped across the neck. Every note you see belongs to the major scale. The colored chord tones show how the 5 shapes tile seamlessly from open position all the way up the neck and back again.`,
-    tips: [
-      'The shapes cycle: C → A → G → E → D → C …',
-      'Root notes (shown in shape colors) are always findable',
-      'Each shape overlaps with its neighbors',
-      'This map works for ANY major key!'
-    ]
-  }
+const SHAPE_INFO={
+  C:{desc:`The C Shape is built around the open C major chord. The root sits on the A string (5th string). In Eddie Haddad's method, this is typically the first CAGED shape because it's already familiar from the open C chord.`,
+     tips:['Root note is on the 5th string (A)','Also find the root on the 2nd string (B)','Barre this shape by moving it up the neck','Connects into the A Shape going up the neck']},
+  A:{desc:`The A Shape is based on the barre chord version of the A major chord. Eddie emphasizes that once you see the A shape, you can find it everywhere on the neck. The root sits on the A string.`,
+     tips:['Root on the 5th string (A)','Classic barre chord shape','Can also play as partial barre (strings 2-4)','Connects into G Shape going up the neck']},
+  G:{desc:`The G Shape spans all 6 strings with roots on both the low E and high e strings. Eddie notes this is the hardest shape to barre cleanly — focus on it as a scale/arpeggio map first.`,
+     tips:['Root on low E string AND high e string','Widest shape — spans the most frets','Most guitarists play partial versions','Connects into E Shape going up the neck']},
+  E:{desc:`The E Shape is the most common barre chord shape guitarists learn. Based on the open E chord, it's the foundation of countless rock riffs. Root is on the low E string. Eddie says this is often the "aha" moment for students.`,
+     tips:['Root on the 6th string (low E)','The classic "first barre chord" shape','Root also on the D string and high e string','Connects into D Shape going up the neck']},
+  D:{desc:`The D Shape completes the CAGED system. Root sits on the D string (4th string). Eddie explains that mastering this shape closes the loop — after D, the cycle begins again with C at the 12th fret.`,
+     tips:['Root on the 4th string (D)','Only uses the top 4 strings (D-G-B-e)','Root also on the B string','Connects back into C Shape — completing the cycle!']},
+  ALL:{desc:`This is the full picture — all 5 CAGED shapes mapped across the neck simultaneously. Every note belongs to the major scale. The colored chord tones show how the 5 shapes tile seamlessly from open position all the way up the neck.`,
+       tips:['Shapes cycle: C → A → G → E → D → C…','Root notes (shape colors) are always findable','Each shape overlaps its neighbors','This map works for ANY major key!']}
 };
 
-function renderShapeInfo() {
-  const { shape, key } = state;
-  const info = SHAPE_INFO[shape] || SHAPE_INFO.ALL;
-  const s = SHAPES[shape];
-  const color = s ? s.color : '#888';
-  const name = s ? s.name : 'Full Neck View';
-  const kname = KEYS.find(k=>k.val===key).name;
-
-  document.getElementById('shapeInfo').innerHTML = `
+function renderShapeInfo(){
+  const{shape,key}=state, info=SHAPE_INFO[shape]||SHAPE_INFO.ALL;
+  const s=SHAPES[shape], color=s?s.color:'#888', name=s?s.name:'Full Neck View';
+  const kname=KEYS.find(k=>k.val===key).name;
+  document.getElementById('shapeInfo').innerHTML=`
     <h2 style="color:${color}">${name}</h2>
-    <span class="tag" style="background:${color}22;color:${color};border:1px solid ${color}44">
-      Key of ${kname}
-    </span>
+    <span class="tag" style="background:${color}22;color:${color};border:1px solid ${color}44">Key of ${kname}</span>
     <p>${info.desc}</p>
     <h4 style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">Key Points</h4>
-    <ul class="tips">${info.tips.map(t=>`<li style="border-color:${color}66">${t}</li>`).join('')}</ul>
-  `;
+    <ul class="tips">${info.tips.map(t=>`<li style="border-color:${color}66">${t}</li>`).join('')}</ul>`;
 }
 
 // ═══════════════════════════════════════════════════════════════
 // LEGEND
 // ═══════════════════════════════════════════════════════════════
 
-function updateLegend() {
-  const { mode, shape } = state;
-  const color = shape !== 'ALL' ? SHAPES[shape].color : '#888';
-  const items = mode === 'chord' || mode === 'arpeggio'
-    ? [
-        { color, label: 'Root (1)' },
-        { color: 'var(--third)', label: 'Major 3rd' },
-        { color: 'var(--fifth)', label: 'Perfect 5th' },
-      ]
-    : [
-        { color, label: 'Root (1)' },
-        { color: 'var(--third)', label: 'Major 3rd' },
-        { color: 'var(--fifth)', label: 'Perfect 5th' },
-        { color: 'var(--scale)', label: 'Scale tone' },
-      ];
-  document.getElementById('legend').innerHTML = items.map(i =>
+function updateLegend(esh){
+  const color=esh!=='ALL'?SHAPES[esh].color:'#888';
+  const items=(esh==='ALL'||state.mode!=='chord')
+    ?[{color,label:'Root (1)'},{color:'var(--third)',label:'Major 3rd'},{color:'var(--fifth)',label:'Perfect 5th'},{color:'var(--scale)',label:'Scale tone'}]
+    :[{color,label:'Root (1)'},{color:'var(--third)',label:'Major 3rd'},{color:'var(--fifth)',label:'Perfect 5th'}];
+  document.getElementById('legend').innerHTML=items.map(i=>
     `<div class="leg"><div class="leg-dot" style="background:${i.color}"></div>${i.label}</div>`
-  ).join('') + `<div class="leg" style="margin-left:auto"><span style="font-size:11px;color:var(--muted)">R = Root · b2/2/b3/3/4/5… = scale degree</span></div>`;
+  ).join('')+`<div class="leg" style="margin-left:auto;font-size:11px">R·b2·2·3·4·5… = scale degree</div>`;
 }
 
 // ═══════════════════════════════════════════════════════════════
-// LESSON CONTENT
+// LESSONS
 // ═══════════════════════════════════════════════════════════════
 
-const LESSONS = {
-  intro: {
-    tab: 'What is CAGED?',
-    shape: null,
-    videoId: null,
-    videoSearch: 'Eddie+Haddad+CAGED+system+guitar',
-    title: 'The CAGED System Explained',
-    body: `<p>The CAGED system is one of the most powerful tools for mastering the guitar fretboard. Named after five open chord shapes — <strong>C, A, G, E, D</strong> — it reveals how every major chord, scale, and arpeggio is connected across the entire neck.</p>
+const LESSONS={
+  intro:{tab:'What is CAGED?',videoSearch:'Eddie+Haddad+CAGED+system+guitar',title:'The CAGED System Explained',
+    body:`<p>The CAGED system is one of the most powerful tools for mastering the guitar fretboard. Named after five open chord shapes — <strong>C, A, G, E, D</strong> — it reveals how every major chord, scale, and arpeggio is connected across the entire neck.</p>
     <p>Eddie Haddad of <strong>Guitar Mastery Method</strong> teaches that once you internalize these five shapes, the fretboard stops looking like a random collection of notes and becomes a logical, repeating map you can navigate effortlessly in any key.</p>
-    <p>The key insight: <em>the same five shapes repeat all the way up the neck, in the same order</em> — C → A → G → E → D → C → A… This means learning 5 shapes gives you the whole fretboard!</p>`,
-    practice: [
-      'Start with the key of G — the open G chord is your first shape',
-      'Identify root notes first — they are your landmarks',
-      'Practice saying the shape name as you play each chord',
-      'Play through the shapes in order: C-A-G-E-D up the neck',
-      'Use a drone note (open low E) while playing shapes in E'
-    ]
-  },
-  C: {
-    tab: 'C Shape',
-    shape: 'C',
-    videoId: null,
-    videoSearch: 'Eddie+Haddad+CAGED+C+shape+guitar',
-    title: 'The C Shape',
-    body: `<p>The C Shape is built from the familiar open C major chord. Eddie starts here because most students already know the open C chord — so this shape is instantly recognizable.</p>
+    <p>The key insight: <em>the same five shapes repeat all the way up the neck</em> — C → A → G → E → D → C → A… Learning 5 shapes gives you the <em>whole</em> fretboard!</p>`,
+    practice:['Start with key of G — the open G chord is your first shape','Identify root notes first — they are your landmarks','Say the shape name out loud as you play each chord','Play through shapes in order: C-A-G-E-D up the neck','Use a drone note (open low E) while playing shapes in E']},
+  C:{tab:'C Shape',videoSearch:'Eddie+Haddad+CAGED+C+shape+guitar',title:'The C Shape',
+    body:`<p>The C Shape is built from the familiar open C major chord. Eddie starts here because most students already know the open C chord — so this shape is instantly recognizable.</p>
     <p>The root of the C shape lives on the <strong>A string (5th string)</strong>. To play a C major chord in C-shape anywhere on the neck, find C on the A string and build the shape from there.</p>
     <p>As a scale position, the C Shape covers the area around and below the root fret. Notice how the scale pattern "wraps around" the chord shape — this is the key to unlocking improvisation in any position.</p>`,
-    practice: [
-      'Play the open C chord — that IS the C shape in the key of C',
-      'Slide the entire shape up 2 frets: now you\'re in D',
-      'Find the root (dot on A string) in every key using this shape',
-      'Practice the scale pattern through the C-shape window',
-      'Arpeggiate: root → 3rd → 5th → 3rd → root'
-    ]
-  },
-  A: {
-    tab: 'A Shape',
-    shape: 'A',
-    videoId: null,
-    videoSearch: 'Eddie+Haddad+CAGED+A+shape+guitar',
-    title: 'The A Shape',
-    body: `<p>The A Shape is based on the open A major chord. As a barre chord, it\'s the shape you use when you barre at the 2nd fret for B major, or 3rd fret for C major. You've probably played this shape hundreds of times!</p>
-    <p>Like the C shape, the root is on the <strong>A string</strong>. But the voicing is completely different — giving you a different tonal color for the same chord. Eddie emphasizes that having both C and A shapes in your vocabulary doubles your chord voicing options instantly.</p>
-    <p>The A-shape scale pattern sits above the chord's root fret, making it a natural position for soloing in the upper-mid region of the neck.</p>`,
-    practice: [
-      'Barre at fret 3 — you\'re playing C major in A shape',
-      'Compare A-shape C with C-shape C: same key, different sound',
-      'Practice the pentatonic scale within this position',
-      'Try an A-shape arpeggio: low root → 5th → 3rd → root (high)',
-      'Connect: play A-shape then slide up to G-shape'
-    ]
-  },
-  G: {
-    tab: 'G Shape',
-    shape: 'G',
-    videoId: null,
-    videoSearch: 'Eddie+Haddad+CAGED+G+shape+guitar',
-    title: 'The G Shape',
-    body: `<p>The G Shape is the most challenging CAGED shape to play as a full barre chord, but as a scale and arpeggio map it's incredibly useful. The root appears on both the <strong>low E string</strong> and the <strong>high e string</strong> — making it visually easy to locate.</p>
-    <p>Eddie often teaches the G shape through its arpeggio first: play just the root, 3rd, and 5th across the strings. This makes the shape instantly musical without needing to barre all six strings.</p>
-    <p>The G-shape position connects the A-shape above it to the E-shape above that, forming the middle section of the CAGED cycle.</p>`,
-    practice: [
-      'Find the root on the low E string — that\'s your landmark',
-      'Play the G-shape arpeggio (skip non-chord tones)',
-      'Notice the root also appears on the high e string at the same fret',
-      'Practice the scale pattern — notice its slightly wider reach',
-      'In key of G: the open G chord IS this shape at fret 0'
-    ]
-  },
-  E: {
-    tab: 'E Shape',
-    shape: 'E',
-    videoId: null,
-    videoSearch: 'Eddie+Haddad+CAGED+E+shape+guitar',
-    title: 'The E Shape',
-    body: `<p>Most guitarists learn the E-shape barre chord before they ever hear of the CAGED system. It's the standard "first barre chord" — barre at the 5th fret for A major, 8th fret for C major. Eddie calls this the shape that gives students their "aha" moment.</p>
-    <p>The root is on the <strong>low E string (6th string)</strong>, and also appears on the D string and high e string. Three root notes make this shape very easy to orient yourself on the neck.</p>
-    <p>The E-shape scale position is one of the most popular positions for rock soloing — many classic guitar solos live in this single position.</p>`,
-    practice: [
-      'Barre at fret 8: C major in E shape',
-      'This position is the foundation of most rock soloing!',
-      'Find all three root notes (low E, D string, high e)',
-      'Play the pentatonic scale within this position',
-      'Connect: slide down to G-shape or up to D-shape'
-    ]
-  },
-  D: {
-    tab: 'D Shape',
-    shape: 'D',
-    videoId: null,
-    videoSearch: 'Eddie+Haddad+CAGED+D+shape+guitar',
-    title: 'The D Shape',
-    body: `<p>The D Shape completes the CAGED cycle. Based on the open D chord, it uses only the top four strings (D-G-B-e) and has its root on the <strong>D string (4th string)</strong>. Eddie teaches this as the shape that "closes the loop" — after D, the cycle begins again with C at the 12th fret.</p>
-    <p>While the D-shape chord voicing is smaller (4 strings), the scale pattern still spans all 6 strings, making it a full position for soloing and melody playing.</p>
+    practice:["Play the open C chord — that IS the C shape in key of C","Slide the shape up 2 frets: now you're in D","Find the root (A string dot) for every key","Practice the scale pattern through the C-shape window","Arpeggiate: root → 3rd → 5th → 3rd → root"]},
+  A:{tab:'A Shape',videoSearch:'Eddie+Haddad+CAGED+A+shape+guitar',title:'The A Shape',
+    body:`<p>The A Shape is based on the open A major chord. As a barre chord, it's the shape you use when you barre at the 2nd fret for B major, or 3rd fret for C major. You've probably played this shape hundreds of times!</p>
+    <p>Like the C shape, the root is on the <strong>A string</strong>. But the voicing is completely different — giving you a different tonal color for the same chord. Eddie emphasizes that having both C and A shapes doubles your chord voicing options instantly.</p>`,
+    practice:["Barre at fret 3 — you're playing C major in A shape","Compare A-shape C with C-shape C: same key, different sound","Practice the pentatonic scale within this position","Try an A-shape arpeggio: low root → 5th → 3rd → root","Connect: play A-shape then slide up to G-shape"]},
+  G:{tab:'G Shape',videoSearch:'Eddie+Haddad+CAGED+G+shape+guitar',title:'The G Shape',
+    body:`<p>The G Shape is the most challenging CAGED shape to play as a full barre chord, but as a scale and arpeggio map it's incredibly useful. The root appears on both the <strong>low E string</strong> and the <strong>high e string</strong>.</p>
+    <p>Eddie often teaches the G shape through its arpeggio first: play just the root, 3rd, and 5th. This makes the shape instantly musical without needing to barre all six strings.</p>`,
+    practice:["Find the root on the low E — that's your landmark","Play the G-shape arpeggio (skip non-chord tones)","Root also appears on the high e string at the same fret","Practice the scale pattern — notice its wider reach","In key of G: the open G chord IS this shape at fret 0"]},
+  E:{tab:'E Shape',videoSearch:'Eddie+Haddad+CAGED+E+shape+guitar',title:'The E Shape',
+    body:`<p>Most guitarists learn the E-shape barre chord before they ever hear of the CAGED system. It's the standard "first barre chord" — barre at the 5th fret for A major, 8th fret for C major. Eddie calls this the shape that gives students their "aha" moment.</p>
+    <p>The root is on the <strong>low E string (6th string)</strong>, and also appears on the D string and high e string. Three root notes make this shape very easy to orientate on the neck.</p>`,
+    practice:["Barre at fret 8: C major in E shape","This position is the foundation of most rock soloing!","Find all three root notes (low E, D string, high e)","Play the pentatonic scale within this position","Connect: slide down to G-shape or up to D-shape"]},
+  D:{tab:'D Shape',videoSearch:'Eddie+Haddad+CAGED+D+shape+guitar',title:'The D Shape',
+    body:`<p>The D Shape completes the CAGED cycle. Based on the open D chord, it uses only the top four strings (D-G-B-e) and has its root on the <strong>D string (4th string)</strong>. Eddie teaches this as the shape that "closes the loop" — after D, the cycle begins again with C at the 12th fret.</p>
     <p>Mastering the D shape means you've completed the CAGED system. You can now play any major chord, scale, or arpeggio in 5 different positions anywhere on the neck!</p>`,
-    practice: [
-      'Play open D chord: that\'s the D shape in key of D',
-      'For key of C: the root is at fret 10 on the D string',
-      'Practice moving D shape up and down for different keys',
-      'Connect the full cycle: C-A-G-E-D all the way up',
-      'CHALLENGE: Play all 5 shapes of C major without stopping!'
-    ]
-  }
+    practice:["Play open D chord: that's the D shape in key of D","For key of C: root is at fret 10 on the D string","Practice moving D shape up and down for different keys","Connect the full cycle: C-A-G-E-D all the way up","CHALLENGE: Play all 5 shapes of C major without stopping!"]}
 };
 
-function renderLessons() {
-  const nav = document.getElementById('shapeNav');
-  const tabs = document.getElementById('lessonTabs');
-  const panels = document.getElementById('lessonPanels');
-
-  nav.innerHTML = SHAPE_ORDER.map(s =>
-    `<div class="snav${state.lesson===s?' active':''}" data-s="${s}" onclick="setLesson('${s}')">${s}</div>`
-  ).join('');
-
-  const tabOrder = ['intro', ...SHAPE_ORDER];
-  tabs.innerHTML = tabOrder.map(id => {
-    const l = LESSONS[id];
-    return `<div class="ltab${state.lesson===id?' active':''}" onclick="setLesson('${id}')">${l.tab}</div>`;
-  }).join('');
-
-  panels.innerHTML = tabOrder.map(id => {
-    const l = LESSONS[id];
-    const searchUrl = `https://www.youtube.com/results?search_query=${l.videoSearch}`;
-    const channelUrl = 'https://www.youtube.com/@guitarmasterymethod';
-
+function renderLessons(){
+  const nav=document.getElementById('shapeNav');
+  const tabs=document.getElementById('lessonTabs');
+  const panels=document.getElementById('lessonPanels');
+  nav.innerHTML=SHAPE_ORDER.map(s=>`<div class="snav${state.lesson===s?' active':''}" data-s="${s}" onclick="setLesson('${s}')">${s}</div>`).join('');
+  const order=['intro',...SHAPE_ORDER];
+  tabs.innerHTML=order.map(id=>`<div class="ltab${state.lesson===id?' active':''}" onclick="setLesson('${id}')">${LESSONS[id].tab}</div>`).join('');
+  const ch=KEYS.find(k=>k.val===state.key).name;
+  const channelUrl='https://www.youtube.com/@guitarmasterymethod';
+  panels.innerHTML=order.map(id=>{
+    const l=LESSONS[id];
+    const searchUrl=`https://www.youtube.com/results?search_query=${l.videoSearch}`;
     return `<div class="lpanel${state.lesson===id?' active':''}" id="panel-${id}">
       <div class="video-area">
-        ${l.videoId
-          ? `<iframe src="https://www.youtube.com/embed/${l.videoId}" allowfullscreen></iframe>`
-          : `<div class="yt-placeholder">
+        ${l.videoId?`<iframe src="https://www.youtube.com/embed/${l.videoId}" allowfullscreen></iframe>`
+          :`<div class="yt-placeholder">
               <div class="yt-icon">▶</div>
-              <div>
-                <strong>Eddie Haddad · Guitar Mastery Method</strong><br>
-                Search YouTube for this lesson:
-              </div>
-              <a class="yt-link" href="${searchUrl}" target="_blank" rel="noopener">
-                ▶ Search YouTube
-              </a>
-              <a class="yt-link" href="${channelUrl}" target="_blank" rel="noopener" style="background:#1a1a3a;color:#aaa;border:1px solid #333">
-                🎸 Visit Channel
-              </a>
-            </div>`
-        }
+              <div><strong>Eddie Haddad · Guitar Mastery Method</strong><br>Find this lesson on YouTube:</div>
+              <a class="yt-link" href="${searchUrl}" target="_blank" rel="noopener">▶ Search YouTube</a>
+              <a class="yt-link" href="${channelUrl}" target="_blank" rel="noopener" style="background:#1a1a3a;color:#aaa;border:1px solid #333">🎸 Visit Channel</a>
+            </div>`}
       </div>
       <div class="lesson-text">
-        <h3>${l.title}</h3>
-        ${l.body}
+        <h3>${l.title}</h3>${l.body}
         <h4>Practice Tips</h4>
         <ul>${l.practice.map(p=>`<li>${p}</li>`).join('')}</ul>
       </div>
@@ -875,96 +643,263 @@ function renderLessons() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// CONTROLS SETUP
+// CONTROLS
 // ═══════════════════════════════════════════════════════════════
 
-function buildControls() {
-  // Key buttons
-  const kb = document.getElementById('keyBtns');
-  KEYS.forEach(k => {
-    const b = document.createElement('button');
-    b.textContent = k.name;
-    b.className = 'key-btn' + (k.val === state.key ? ' active' : '');
-    b.onclick = () => { state.key = k.val; update(); };
+function buildControls(){
+  const kb=document.getElementById('keyBtns');
+  KEYS.forEach(k=>{
+    const b=document.createElement('button');
+    b.textContent=k.name; b.className='key-btn'+(k.val===state.key?' active':'');
+    b.onclick=()=>{state.key=k.val; update(); updateBtChords();};
     kb.appendChild(b);
   });
-
-  // Shape buttons
-  const sb = document.getElementById('shapeBtns');
-  [...SHAPE_ORDER, 'ALL'].forEach(s => {
-    const b = document.createElement('button');
-    b.textContent = s === 'ALL' ? 'All Shapes' : s;
-    b.className = 'shape-btn' + (s === state.shape ? ' active' : '');
-    b.dataset.s = s;
-    b.onclick = () => { state.shape = s; update(); };
+  const sb=document.getElementById('shapeBtns');
+  [...SHAPE_ORDER,'ALL'].forEach(s=>{
+    const b=document.createElement('button');
+    b.textContent=s==='ALL'?'All Shapes':s;
+    b.className='shape-btn'+(s===state.shape?' active':''); b.dataset.s=s;
+    b.onclick=()=>{state.shape=s; update();};
     sb.appendChild(b);
   });
-
-  // Mode buttons
-  const mb = document.getElementById('modeBtns');
-  [['chord','Chord'],['scale','Scale'],['arpeggio','Arpeggio']].forEach(([val,label]) => {
-    const b = document.createElement('button');
-    b.textContent = label;
-    b.className = 'mode-btn' + (val === state.mode ? ' active' : '');
-    b.onclick = () => { state.mode = val; update(); };
+  const mb=document.getElementById('modeBtns');
+  [['chord','Chord'],['scale','Scale'],['arpeggio','Arpeggio']].forEach(([val,label])=>{
+    const b=document.createElement('button');
+    b.textContent=label; b.className='mode-btn'+(val===state.mode?' active':'');
+    b.onclick=()=>{state.mode=val; update();};
     mb.appendChild(b);
   });
 }
 
-function updateControls() {
-  document.querySelectorAll('.key-btn').forEach((b,i) => b.classList.toggle('active', KEYS[i].val===state.key));
-  document.querySelectorAll('.shape-btn').forEach(b => b.classList.toggle('active', b.dataset.s===state.shape));
-  document.querySelectorAll('.mode-btn').forEach(b => {
-    const modes = ['chord','scale','arpeggio'];
-    b.classList.toggle('active', modes[document.querySelectorAll('.mode-btn').length===3?['chord','scale','arpeggio'].indexOf(b.textContent.toLowerCase()):0]===state.mode);
-  });
-  // Re-render mode buttons active state cleanly
-  document.querySelectorAll('.mode-btn').forEach(b => {
-    const map = {Chord:'chord',Scale:'scale',Arpeggio:'arpeggio'};
-    b.classList.toggle('active', map[b.textContent]===state.mode);
-  });
+function updateControls(){
+  document.querySelectorAll('.key-btn').forEach((b,i)=>b.classList.toggle('active',KEYS[i].val===state.key));
+  document.querySelectorAll('.shape-btn').forEach(b=>b.classList.toggle('active',b.dataset.s===state.shape));
+  const modeMap={Chord:'chord',Scale:'scale',Arpeggio:'arpeggio'};
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',modeMap[b.textContent]===state.mode));
 }
 
-function setLesson(id) {
-  state.lesson = id;
-  if (SHAPES[id]) { state.shape = id; updateControls(); }
-  renderLessons();
-  renderFretboard();
-  renderChordBox();
-  renderShapeInfo();
+function setLesson(id){
+  state.lesson=id;
+  if(SHAPES[id]){state.shape=id; updateControls();}
+  renderLessons(); renderFretboard(); renderChordBox(); renderShapeInfo();
 }
+
+function update(){updateControls();renderFretboard();renderChordBox();renderShapeInfo();}
 
 // ═══════════════════════════════════════════════════════════════
 // SVG HELPERS
 // ═══════════════════════════════════════════════════════════════
 
-function el(tag, attrs) {
-  const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
-  for (const [k,v] of Object.entries(attrs)) e.setAttribute(k, v);
-  return e;
+function el(tag,attrs){
+  const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v); return e;
+}
+function elDot(x,y,r,fill){return el('circle',{cx:x,cy:y,r:String(r),fill});}
+
+// ═══════════════════════════════════════════════════════════════
+// BACKING TRACK — WEB AUDIO ENGINE
+// ═══════════════════════════════════════════════════════════════
+
+let audioCtx=null, masterGain=null, reverbNode=null, wetGain=null, noiseBuffer=null;
+let isPlaying=false, bpm=75, schedulerTimer=null, nextNoteTime=0.0, cur8th=0;
+
+const LOOK_AHEAD=0.1, SCHED_MS=25;
+
+// 8th-note patterns per bar (index 0-7)
+// Strum: 0=off, 1=down, 2=up-partial
+const STRUM  = [1, 0, 1, 2, 0, 2, 1, 2];
+const KICK   = [1, 0, 0, 0, 1, 0, 0, 0];
+const SNARE  = [0, 0, 1, 0, 0, 0, 1, 0];
+const HIHAT  = [1, 1, 1, 1, 1, 1, 1, 1];
+
+async function initAudio(){
+  if(audioCtx){
+    if(audioCtx.state==='suspended')await audioCtx.resume();
+    return;
+  }
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+
+  // Pre-bake noise buffer (1 second, reused for snare+hihat)
+  noiseBuffer=audioCtx.createBuffer(1,audioCtx.sampleRate,audioCtx.sampleRate);
+  const nd=noiseBuffer.getChannelData(0);
+  for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;
+
+  // Reverb (exponentially-decaying noise impulse)
+  const rLen=audioCtx.sampleRate*2;
+  const rBuf=audioCtx.createBuffer(2,rLen,audioCtx.sampleRate);
+  for(let ch=0;ch<2;ch++){const d=rBuf.getChannelData(ch);for(let i=0;i<rLen;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/rLen,2);}
+  reverbNode=audioCtx.createConvolver(); reverbNode.buffer=rBuf;
+
+  masterGain=audioCtx.createGain(); masterGain.gain.value=0.65;
+  const comp=audioCtx.createDynamicsCompressor();
+  comp.threshold.value=-18; comp.knee.value=8;
+  comp.ratio.value=4; comp.attack.value=0.005; comp.release.value=0.2;
+
+  wetGain=audioCtx.createGain(); wetGain.gain.value=0.18;
+
+  masterGain.connect(comp); comp.connect(audioCtx.destination);
+  masterGain.connect(reverbNode); reverbNode.connect(wetGain); wetGain.connect(audioCtx.destination);
 }
 
-function elDot(x, y, r, fill) {
-  return el('circle', { cx:x, cy:y, r:String(r), fill });
+function midiFreq(m){return 440*Math.pow(2,(m-69)/12)}
+
+function getVoicing(rootSem,minor){
+  const mbase=48+rootSem;
+  const bass=mbase>52?mbase-12:mbase;
+  const th=minor?3:4;
+  return{
+    bassFreq:midiFreq(bass),
+    chordFreqs:[midiFreq(bass+12),midiFreq(bass+12+th),midiFreq(bass+12+7),midiFreq(bass+24)]
+  };
+}
+
+function playKick(t){
+  const osc=audioCtx.createOscillator(), g=audioCtx.createGain();
+  osc.type='sine';
+  osc.frequency.setValueAtTime(110,t); osc.frequency.exponentialRampToValueAtTime(42,t+0.1);
+  g.gain.setValueAtTime(1.4,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+  osc.connect(g); g.connect(masterGain); osc.start(t); osc.stop(t+0.32);
+}
+
+function playSnare(t){
+  // Noise burst
+  const src=audioCtx.createBufferSource(); src.buffer=noiseBuffer;
+  const hpf=audioCtx.createBiquadFilter(); hpf.type='highpass'; hpf.frequency.value=2200;
+  const g=audioCtx.createGain();
+  g.gain.setValueAtTime(0.55,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.14);
+  src.connect(hpf); hpf.connect(g); g.connect(masterGain); src.start(t); src.stop(t+0.15);
+  // Snap tone
+  const osc=audioCtx.createOscillator(), og=audioCtx.createGain();
+  osc.type='triangle'; osc.frequency.value=185;
+  og.gain.setValueAtTime(0.5,t); og.gain.exponentialRampToValueAtTime(0.001,t+0.06);
+  osc.connect(og); og.connect(masterGain); osc.start(t); osc.stop(t+0.08);
+}
+
+function playHiHat(t){
+  const src=audioCtx.createBufferSource(); src.buffer=noiseBuffer;
+  const hpf=audioCtx.createBiquadFilter(); hpf.type='highpass'; hpf.frequency.value=9000;
+  const g=audioCtx.createGain();
+  g.gain.setValueAtTime(0.14,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.038);
+  src.connect(hpf); hpf.connect(g); g.connect(masterGain); src.start(t); src.stop(t+0.05);
+}
+
+function playBass(freq,t,dur){
+  const osc=audioCtx.createOscillator(), g=audioCtx.createGain();
+  osc.type='triangle'; osc.frequency.value=freq;
+  g.gain.setValueAtTime(0.72,t); g.gain.setValueAtTime(0.5,t+0.06);
+  g.gain.exponentialRampToValueAtTime(0.001,t+dur*0.88);
+  osc.connect(g); g.connect(masterGain); osc.start(t); osc.stop(t+dur);
+}
+
+function playChordStrum(freqs,t,dur,isUp,vel){
+  const ordered=isUp?[...freqs].reverse():freqs;
+  ordered.forEach((freq,i)=>{
+    const dt=i*0.011, st=t+dt;
+    const v=vel/(freqs.length*2.2);
+    [-7,7].forEach(cents=>{
+      const osc=audioCtx.createOscillator(), g=audioCtx.createGain(), filt=audioCtx.createBiquadFilter();
+      osc.type='sawtooth'; osc.frequency.value=freq*Math.pow(2,cents/1200);
+      filt.type='lowpass'; filt.frequency.value=2700; filt.Q.value=0.8;
+      g.gain.setValueAtTime(0,st);
+      g.gain.linearRampToValueAtTime(v,st+0.016);
+      g.gain.exponentialRampToValueAtTime(v*0.28,st+0.22);
+      g.gain.exponentialRampToValueAtTime(0.0001,st+dur);
+      osc.connect(filt); filt.connect(g); g.connect(masterGain);
+      osc.start(st); osc.stop(st+dur+0.05);
+    });
+  });
+}
+
+function scheduleNote(pos,t,e8){
+  const bar=pos%8, minor=pos>=8;
+  const root=minor?(state.key+9)%12:state.key;
+  const v=getVoicing(root,minor);
+
+  if(KICK[bar])  playKick(t);
+  if(SNARE[bar]) playSnare(t);
+  if(HIHAT[bar]) playHiHat(t);
+  if(bar===0)    playBass(v.bassFreq,t,e8*3.2);
+
+  const strum=STRUM[bar];
+  if(strum){
+    const isUp=strum===2;
+    const freqs=isUp?v.chordFreqs.slice(1):v.chordFreqs;
+    playChordStrum(freqs,t,e8*(isUp?1.3:2.6),isUp,isUp?0.38:0.62);
+  }
+
+  // Schedule UI update
+  const delay=Math.max(0,(t-audioCtx.currentTime)*1000);
+  const beat=Math.floor(pos/2); // 0-7 quarter-note beats
+  setTimeout(()=>updateBeatUI(beat,minor),delay);
+}
+
+function scheduler(){
+  const e8=60/bpm/2;
+  while(nextNoteTime<audioCtx.currentTime+LOOK_AHEAD){
+    scheduleNote(cur8th,nextNoteTime,e8);
+    nextNoteTime+=e8;
+    cur8th=(cur8th+1)%16;
+  }
+}
+
+function updateBeatUI(beat,minor){
+  // beat 0-7 (quarter notes across 2 bars)
+  document.querySelectorAll('.beat-dot').forEach(d=>{
+    const b=parseInt(d.dataset.b);
+    d.classList.toggle('active',b===beat);
+  });
+  document.getElementById('chordI').classList.toggle('active-chord',!minor);
+  document.getElementById('chordVI').classList.toggle('active-chord',minor);
+}
+
+async function togglePlay(){
+  await initAudio();
+  if(isPlaying){
+    isPlaying=false; state.isPlaying=false;
+    clearInterval(schedulerTimer);
+    document.getElementById('playBtn').textContent='▶ Play';
+    document.getElementById('playBtn').classList.remove('playing');
+    document.getElementById('btHint').textContent='Press Play — the fretboard will show all 5 CAGED patterns for the selected key';
+    // Clear beat UI
+    document.querySelectorAll('.beat-dot').forEach(d=>d.classList.remove('active'));
+    document.getElementById('chordI').classList.remove('active-chord');
+    document.getElementById('chordVI').classList.remove('active-chord');
+    renderFretboard();
+  } else {
+    isPlaying=true; state.isPlaying=true;
+    cur8th=0; nextNoteTime=audioCtx.currentTime+0.05;
+    schedulerTimer=setInterval(scheduler,SCHED_MS);
+    document.getElementById('playBtn').textContent='■ Stop';
+    document.getElementById('playBtn').classList.add('playing');
+    document.getElementById('btHint').textContent='Playing — fretboard shows all 5 CAGED shapes. Solo over the backing track!';
+    renderFretboard();
+  }
+}
+
+function onTempoChange(val){
+  bpm=parseInt(val);
+  document.getElementById('bpmDisplay').textContent=val;
+}
+
+function updateBtChords(){
+  const k=state.key;
+  const minRoot=(k+9)%12;
+  const majName=noteShortName(k);
+  const minName=noteShortName(minRoot);
+  document.getElementById('cpMajorName').textContent=majName;
+  document.getElementById('cpMinorName').textContent=minName+'m';
 }
 
 // ═══════════════════════════════════════════════════════════════
-// MAIN UPDATE
+// INIT
 // ═══════════════════════════════════════════════════════════════
 
-function update() {
-  updateControls();
-  renderFretboard();
-  renderChordBox();
-  renderShapeInfo();
-}
-
-// Init
 buildControls();
 renderFretboard();
 renderChordBox();
 renderShapeInfo();
 renderLessons();
+updateBtChords();
 </script>
 </body>
 </html>
